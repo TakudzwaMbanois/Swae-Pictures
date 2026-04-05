@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Swae's Pictures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   DESIGN TOKENS — identical to homepage
+══════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #080808;
+  --dark:  #0f0f0f;
+  --dark2: #141414;
+  --teal:  #2dd4bf;
+  --white: #f5f5f5;
+  --grey:  #6b6b6b;
+  --light: #a0a0a0;
+  --pad:   clamp(20px, 5vw, 60px);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════════════════════════════════
+   NAVBAR — exact copy from homepage
+══════════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; width: 100%; z-index: 200;
+  padding: 22px var(--pad);
+  display: flex; align-items: center; justify-content: space-between;
+  transition: padding 0.4s, background 0.4s;
+}
+nav.solid {
+  padding: 14px var(--pad);
+  background: rgba(8,8,8,0.96);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+.logo-ring {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border: 1.5px solid var(--teal); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.5rem; letter-spacing: 1px; color: var(--teal);
+  text-transform: uppercase; font-weight: 600;
+}
+.logo-text {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(0.7rem, 2vw, 0.88rem);
+  font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--white); white-space: nowrap;
+}
+.nav-right { display: flex; align-items: center; gap: 28px; }
+.nav-links { display: flex; gap: 24px; list-style: none; }
+.nav-links a {
+  font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--light); text-decoration: none; transition: color 0.2s; white-space: nowrap;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--white); }
+.nav-links a.active { color: var(--teal); }
+.nav-book {
+  font-size: 0.68rem; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--teal); text-decoration: none; white-space: nowrap;
+  border: 1px solid rgba(45,212,191,0.3); padding: 9px 18px; transition: all 0.25s;
+}
+.nav-book:hover { background: var(--teal); color: var(--black); border-color: var(--teal); }
+.burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 201; padding: 4px; }
+.burger span { display: block; width: 24px; height: 1.5px; background: var(--white); transition: all 0.3s; }
+.burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+.mobile-nav {
+  display: none; position: fixed; inset: 0; z-index: 199;
+  background: var(--black);
+  flex-direction: column; align-items: center; justify-content: center; gap: 36px;
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.6rem, 8vw, 2.2rem);
+  font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--white); text-decoration: none; transition: color 0.2s;
+}
+.mobile-nav a:hover { color: var(--teal); }
+
+/* ══════════════════════════════════════════
+   SHARED UTILITIES
+══════════════════════════════════════════ */
+.container { max-width: 1200px; margin: 0 auto; width: 100%; }
+.section-tag {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 0.63rem; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 16px;
+}
+.section-tag::before { content: ''; width: 20px; height: 1px; background: var(--teal); flex-shrink: 0; }
+h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 800; letter-spacing: -0.3px; line-height: 1.08;
+  word-break: break-word;
+}
+
+/* Reveal animation — same as homepage */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn { to { opacity: 0.6; } }
+
+/* ══════════════════════════════════════════
+   HERO — same pattern as homepage
+══════════════════════════════════════════ */
+#hero {
+  position: relative; width: 100%; height: 100svh; min-height: 560px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 var(--pad) clamp(48px, 8vh, 90px); overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=1800&q=85&fit=crop');
+  background-size: cover; background-position: center 30%;
+  transform: scale(1.04); transition: transform 8s ease;
+}
+.hero-bg.loaded { transform: scale(1); }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top,
+    rgba(8,8,8,1) 0%, rgba(8,8,8,0.7) 35%,
+    rgba(8,8,8,0.25) 65%, rgba(8,8,8,0.08) 100%);
+}
+.hero-content { position: relative; z-index: 2; max-width: min(680px, 100%); }
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: clamp(0.6rem, 1.5vw, 0.68rem); letter-spacing: 3px;
+  text-transform: uppercase; color: var(--teal);
+  margin-bottom: clamp(14px, 3vh, 24px);
+  opacity: 0; animation: fadeUp 0.9s 0.3s forwards;
+}
+.hero-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--teal); flex-shrink: 0; }
+#hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3rem, 9vw, 7.5rem);
+  font-weight: 800; line-height: 0.95;
+  letter-spacing: -2px; color: var(--white);
+  margin-bottom: clamp(12px, 2vh, 20px);
+  opacity: 0; animation: fadeUp 0.9s 0.5s forwards;
+}
+.hero-sub {
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  color: var(--light); font-weight: 300; line-height: 1.7;
+  opacity: 0; animation: fadeUp 0.9s 0.7s forwards;
+}
+.logo-img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  display: block;
+  filter: brightness(1) contrast(1.1);
+}
+/* Scroll indicator */
+.hero-scroll {
+  position: absolute; bottom: clamp(24px, 5vh, 44px); right: var(--pad);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0; animation: fadeIn 1s 1.2s forwards; z-index: 2;
+}
+.hero-scroll span { font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--grey); writing-mode: vertical-rl; }
+.scroll-bar { width: 1px; height: 48px; background: linear-gradient(to bottom, var(--teal), transparent); }
+
+/* Section divider arrow */
+.section-arrow {
+  display: flex; justify-content: center; padding: 16px 0;
+  opacity: 0.25;
+}
+.section-arrow svg { width: 20px; height: 20px; stroke: var(--teal); fill: none; stroke-width: 1.5; animation: bounce 2s infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+/* ══════════════════════════════════════════
+   VIDEO SECTION
+══════════════════════════════════════════ */
+#videos {
+  padding: clamp(60px,10vh,100px) 0 clamp(48px,8vh,80px);
+  background: var(--dark);
+}
+.videos-header {
+  padding: 0 var(--pad);
+  margin-bottom: clamp(28px, 4vh, 44px);
+}
+
+/* Featured video */
+.featured-video-wrap {
+  position: relative; width: 100%;
+  aspect-ratio: 16/9; background: #000; overflow: hidden;
+  cursor: pointer;
+}
+.featured-video-wrap video,
+.featured-video-wrap iframe {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.video-overlay {
+  position: absolute; inset: 0;
+  background: rgba(8,8,8,0.3);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s;
+}
+.featured-video-wrap:hover .video-overlay { background: rgba(8,8,8,0.1); }
+.play-btn {
+  width: clamp(56px,8vw,72px); height: clamp(56px,8vw,72px);
+  border: 1.5px solid rgba(255,255,255,0.7); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s; backdrop-filter: blur(4px);
+  background: rgba(255,255,255,0.08);
+}
+.play-btn svg { width: 22px; height: 22px; fill: var(--white); margin-left: 3px; }
+.featured-video-wrap:hover .play-btn { background: var(--teal); border-color: var(--teal); }
+.featured-video-wrap:hover .play-btn svg { fill: var(--black); }
+.video-label {
+  position: absolute; bottom: clamp(16px,3vw,28px); left: clamp(16px,3vw,28px);
+  z-index: 2;
+}
+.video-label-tag { font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--teal); margin-bottom: 4px; }
+.video-label-title { font-family: 'Syne', sans-serif; font-size: clamp(1rem,2.5vw,1.5rem); font-weight: 700; }
+
+/* Thumbnail row */
+.thumb-row-wrap {
+  position: relative; margin-top: clamp(10px,2vh,16px); overflow: hidden;
+}
+.thumb-row {
+  display: flex; gap: clamp(6px,1vw,10px);
+  overflow-x: auto; scroll-behavior: smooth;
+  scrollbar-width: none; padding: 0 var(--pad);
+  -webkit-overflow-scrolling: touch;
+}
+.thumb-row::-webkit-scrollbar { display: none; }
+.thumb {
+  flex: 0 0 clamp(160px,22vw,240px);
+  aspect-ratio: 16/9; overflow: hidden;
+  cursor: pointer; position: relative; border: 2px solid transparent;
+  transition: border-color 0.25s;
+}
+.thumb.active { border-color: var(--teal); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.65); transition: filter 0.35s; display: block; }
+.thumb:hover img, .thumb.active img { filter: brightness(0.9); }
+.thumb-play {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+}
+.thumb-play svg { width: 28px; height: 28px; fill: rgba(255,255,255,0.7); }
+.thumb-title {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 8px 10px;
+  background: linear-gradient(to top, rgba(8,8,8,0.85), transparent);
+  font-size: 0.7rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* Row scroll arrows */
+.row-arrows {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 100%; display: flex; justify-content: space-between;
+  pointer-events: none; padding: 0 4px; z-index: 10;
+}
+.row-arrow {
+  width: 36px; height: 36px;
+  background: rgba(8,8,8,0.85); border: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; pointer-events: all; transition: all 0.2s;
+  flex-shrink: 0;
+}
+.row-arrow:hover { background: var(--teal); border-color: var(--teal); }
+.row-arrow:hover svg { stroke: var(--black); }
+.row-arrow svg { width: 16px; height: 16px; stroke: var(--white); fill: none; stroke-width: 2; }
+
+/* ══════════════════════════════════════════
+   PHOTOGRAPHY SLIDER
+══════════════════════════════════════════ */
+#photography {
+  padding: clamp(60px,10vh,100px) 0;
+  background: var(--black);
+}
+.photo-header {
+  padding: 0 var(--pad);
+  margin-bottom: clamp(28px,4vh,44px);
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+  flex-wrap: wrap;
+}
+.photo-header-left {}
+.photo-slider-wrap {
+  position: relative; width: 100%; overflow: hidden;
+}
+.photo-slider {
+  display: flex; transition: transform 0.7s cubic-bezier(0.77,0,0.175,1);
+  will-change: transform;
+}
+.photo-slide {
+  flex: 0 0 100%; width: 100%;
+  aspect-ratio: 16/7; position: relative; overflow: hidden;
+}
+@media (max-width: 600px) { .photo-slide { aspect-ratio: 4/3; } }
+.photo-slide img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block; filter: brightness(0.85);
+  transition: filter 0.5s;
+}
+.photo-slide.current img { filter: brightness(1); }
+.slide-caption {
+  position: absolute; bottom: clamp(20px,4vw,40px); left: clamp(20px,4vw,48px);
+  z-index: 2;
+  background: rgba(8,8,8,0.55); backdrop-filter: blur(8px);
+  padding: 12px 20px; border-left: 2px solid var(--teal);
+  max-width: min(400px, 80%);
+}
+.slide-cat { font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--teal); margin-bottom: 4px; }
+.slide-title { font-family: 'Syne', sans-serif; font-size: clamp(0.9rem, 2vw, 1.2rem); font-weight: 700; }
+
+/* Slider controls */
+.slider-controls {
+  display: flex; align-items: center; gap: 12px;
+}
+.slider-btn {
+  width: 44px; height: 44px;
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.25s; background: transparent; flex-shrink: 0;
+}
+.slider-btn:hover { border-color: var(--teal); background: rgba(45,212,191,0.08); }
+.slider-btn svg { width: 18px; height: 18px; stroke: var(--white); fill: none; stroke-width: 1.5; }
+.slider-count {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.78rem; color: var(--grey); letter-spacing: 2px; white-space: nowrap;
+}
+.slider-count span { color: var(--teal); }
+
+/* Dots */
+.slider-dots {
+  position: absolute; bottom: clamp(16px,3vw,28px); right: clamp(16px,3vw,40px);
+  display: flex; gap: 8px; z-index: 2;
+}
+.dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.3); cursor: pointer;
+  transition: all 0.3s;
+}
+.dot.active { background: var(--teal); width: 22px; border-radius: 3px; }
+
+/* ══════════════════════════════════════════
+   MASONRY / COLLAGE GRID
+══════════════════════════════════════════ */
+#collage {
+  padding: clamp(60px,10vh,100px) var(--pad);
+  background: var(--dark2);
+}
+.collage-header { margin-bottom: clamp(28px,4vh,48px); }
+.collage-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: clamp(80px, 10vw, 130px);
+  gap: clamp(4px, 0.5vw, 8px);
+}
+/* Layout map: 8 items with varied spans */
+.col-item { overflow: hidden; cursor: pointer; position: relative; }
+.col-item:nth-child(1)  { grid-column: span 7; grid-row: span 3; }
+.col-item:nth-child(2)  { grid-column: span 5; grid-row: span 2; }
+.col-item:nth-child(3)  { grid-column: span 5; grid-row: span 1; }
+.col-item:nth-child(4)  { grid-column: span 4; grid-row: span 2; }
+.col-item:nth-child(5)  { grid-column: span 4; grid-row: span 2; }
+.col-item:nth-child(6)  { grid-column: span 4; grid-row: span 2; }
+.col-item:nth-child(7)  { grid-column: span 6; grid-row: span 2; }
+.col-item:nth-child(8)  { grid-column: span 6; grid-row: span 2; }
+
+.col-item img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  filter: brightness(0.78) grayscale(12%);
+  transition: transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94),
+              filter 0.5s;
+  will-change: transform;
+}
+.col-item:hover img { transform: scale(1.06); filter: brightness(1) grayscale(0%); }
+.col-item-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(8,8,8,0.7) 0%, transparent 50%);
+  opacity: 0; transition: opacity 0.4s;
+  display: flex; align-items: flex-end; padding: clamp(10px,2vw,20px);
+}
+.col-item:hover .col-item-overlay { opacity: 1; }
+.col-item-label { font-family: 'Syne', sans-serif; font-size: clamp(0.75rem, 1.5vw, 0.9rem); font-weight: 700; }
+
+/* ══════════════════════════════════════════
+   CTA SECTION — matches homepage contact
+══════════════════════════════════════════ */
+#cta {
+  padding: clamp(80px,12vh,120px) var(--pad);
+  background: var(--black);
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+}
+.cta-inner { max-width: 680px; }
+.cta-inner .section-tag { justify-content: center; }
+.cta-inner .section-tag::before { display: none; }
+.cta-big {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 800; line-height: 1.0;
+  letter-spacing: -1px; margin: 16px 0 36px;
+}
+.cta-big span { color: var(--teal); }
+.cta-sub {
+  font-size: clamp(0.85rem, 1.8vw, 0.98rem);
+  color: var(--light); line-height: 1.8; margin-bottom: 44px;
+}
+.cta-btn {
+  display: inline-block;
+  padding: clamp(14px,2vh,18px) clamp(32px,5vw,54px);
+  background: var(--teal); color: var(--black);
+  font-size: clamp(0.72rem, 1.5vw, 0.8rem);
+  letter-spacing: 2.5px; text-transform: uppercase;
+  font-weight: 600; text-decoration: none; transition: all 0.28s;
+}
+.cta-btn:hover { background: #14b8a6; transform: translateY(-2px); box-shadow: 0 16px 40px rgba(45,212,191,0.25); }
+
+/* ══════════════════════════════════════════
+   FOOTER — exact match to homepage
+══════════════════════════════════════════ */
+footer {
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 32px var(--pad);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-copy { font-size: 0.7rem; color: var(--grey); letter-spacing: 1px; }
+.footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+.footer-links a {
+  font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--grey); text-decoration: none; transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--teal); }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .nav-links, .nav-book { display: none; }
+  .burger { display: flex; }
+  .hero-scroll { display: none; }
+
+  /* Collage: simplify to 2 columns on mobile */
+  .collage-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: clamp(100px,30vw,160px); }
+  .col-item:nth-child(1)  { grid-column: span 2; grid-row: span 2; }
+  .col-item:nth-child(2)  { grid-column: span 1; grid-row: span 1; }
+  .col-item:nth-child(3)  { grid-column: span 1; grid-row: span 1; }
+  .col-item:nth-child(4)  { grid-column: span 1; grid-row: span 1; }
+  .col-item:nth-child(5)  { grid-column: span 1; grid-row: span 1; }
+  .col-item:nth-child(6)  { grid-column: span 2; grid-row: span 1; }
+  .col-item:nth-child(7)  { grid-column: span 1; grid-row: span 1; }
+  .col-item:nth-child(8)  { grid-column: span 1; grid-row: span 1; }
+
+  footer { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 480px) {
+  .thumb { flex: 0 0 clamp(130px, 55vw, 180px); }
+  .photo-header { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav id="nav">
+  <a href="swaes-pictures.html" class="logo">
+    <img src="assets/logo.png" alt="Swae's Pictures Logo" class="logo-img">
+<span class="logo-text">Swae's Pictures</span>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+    
+    </ul>
+   <a href="https://api.whatsapp.com/send?phone=919729002993&text=Hello%2C%20I%20came%20across%20Swae%27s%20Pictures%20and%20I%27m%20interested%20in%20booking%20a%20shoot.%20Could%20you%20please%20share%20your%20availability%20and%20pricing%20details%3F" target="_blank" class="nav-book">Book a Shoot</a>
+    <div class="burger" id="burger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" onclick="closeMenu()">Home</a>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Swae's Pictures · Visual Archive</div>
+    <h1>Port<em style="color:var(--teal)">folio</em></h1>
+    <p class="hero-sub">Selected work and visual stories</p>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-bar"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<div class="section-arrow">
+  <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+</div>
+
+<!-- ══════════════════════════════════════════
+     VIDEO SECTION
+══════════════════════════════════════════ -->
+<section id="videos">
+  <div class="videos-header reveal">
+    <div class="section-tag">Moving Image</div>
+    <h2>Film &amp; Video Work</h2>
+  </div>
+
+  <!-- Featured video -->
+  <div class="featured-video-wrap reveal" id="featuredVideo">
+    <img id="featuredThumb"
+      src="https://images.unsplash.com/photo-1598387993441-a364f854cfbd?w=1400&q=85&fit=crop"
+      alt="Featured video"
+      style="width:100%;height:100%;object-fit:cover;display:block;">
+    <div class="video-overlay" id="videoOverlay">
+      <div class="play-btn" id="playBtn" onclick="togglePlay()">
+        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </div>
+    </div>
+    <div class="video-label">
+      <div class="video-label-tag" id="featuredCat">Music Video</div>
+      <div class="video-label-title" id="featuredTitle">Neon Nights — Takudzwa ft. Asha</div>
+    </div>
+  </div>
+
+  <!-- Thumbnail row -->
+  <div class="thumb-row-wrap">
+    <div class="thumb-row" id="thumbRow">
+      <div class="thumb active" onclick="selectVideo(0, this)">
+        <img src="https://images.unsplash.com/photo-1598387993441-a364f854cfbd?w=400&q=75&fit=crop" alt="Neon Nights">
+        <div class="thumb-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        <div class="thumb-title">Neon Nights</div>
+      </div>
+      <div class="thumb" onclick="selectVideo(1, this)">
+        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=75&fit=crop" alt="Zim Fashion Week">
+        <div class="thumb-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        <div class="thumb-title">Zim Fashion Week</div>
+      </div>
+      <div class="thumb" onclick="selectVideo(2, this)">
+        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&q=75&fit=crop" alt="Tech Corp Reel">
+        <div class="thumb-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        <div class="thumb-title">Tech Corp Brand Reel</div>
+      </div>
+      <div class="thumb" onclick="selectVideo(3, this)">
+        <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400&q=75&fit=crop" alt="Golden Hour">
+        <div class="thumb-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        <div class="thumb-title">Golden Hour Session</div>
+      </div>
+      <div class="thumb" onclick="selectVideo(4, this)">
+        <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&q=75&fit=crop" alt="Festival">
+        <div class="thumb-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        <div class="thumb-title">Harare Festival 2024</div>
+      </div>
+      <div class="thumb" onclick="selectVideo(5, this)">
+        <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&q=75&fit=crop" alt="Social Reel">
+        <div class="thumb-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        <div class="thumb-title">Social Media Reel</div>
+      </div>
+    </div>
+    <div class="row-arrows">
+      <div class="row-arrow" onclick="scrollThumbs(-1)">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div class="row-arrow" onclick="scrollThumbs(1)">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-arrow">
+  <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PHOTOGRAPHY SLIDER
+══════════════════════════════════════════ -->
+<section id="photography">
+  <div class="photo-header reveal">
+    <div class="photo-header-left">
+      <div class="section-tag">Still Frame</div>
+      <h2>Photography</h2>
+    </div>
+    <div class="slider-controls">
+      <div class="slider-btn" id="prevSlide" onclick="moveSlide(-1)">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div class="slider-count"><span id="slideNum">01</span> / <span id="slideTotal">06</span></div>
+      <div class="slider-btn" id="nextSlide" onclick="moveSlide(1)">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="photo-slider-wrap">
+    <div class="photo-slider" id="photoSlider">
+
+      <div class="photo-slide current">
+        <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1600&q=85&fit=crop&crop=top" alt="Portrait" loading="lazy">
+        <div class="slide-caption">
+          <div class="slide-cat">Portrait</div>
+          <div class="slide-title">Amara — Natural Light Series</div>
+        </div>
+      </div>
+
+      <div class="photo-slide">
+        <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1600&q=85&fit=crop" alt="Cinematic" loading="lazy">
+        <div class="slide-caption">
+          <div class="slide-cat">Cinematic</div>
+          <div class="slide-title">Behind The Lens</div>
+        </div>
+      </div>
+
+      <div class="photo-slide">
+        <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1600&q=85&fit=crop" alt="Events" loading="lazy">
+        <div class="slide-caption">
+          <div class="slide-cat">Events</div>
+          <div class="slide-title">Harare Cultural Festival</div>
+        </div>
+      </div>
+
+      <div class="photo-slide">
+        <img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=1600&q=85&fit=crop" alt="Commercial" loading="lazy">
+        <div class="slide-caption">
+          <div class="slide-cat">Commercial</div>
+          <div class="slide-title">Product &amp; Brand Identity</div>
+        </div>
+      </div>
+
+      <div class="photo-slide">
+        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1600&q=85&fit=crop" alt="Gear" loading="lazy">
+        <div class="slide-caption">
+          <div class="slide-cat">Behind the Scenes</div>
+          <div class="slide-title">Craft &amp; Equipment</div>
+        </div>
+      </div>
+
+      <div class="photo-slide">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1600&q=85&fit=crop&crop=top" alt="Corporate" loading="lazy">
+        <div class="slide-caption">
+          <div class="slide-cat">Corporate</div>
+          <div class="slide-title">Executive Portraits — Zim Fintech</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Dots -->
+    <div class="slider-dots" id="sliderDots"></div>
+  </div>
+</section>
+
+<div class="section-arrow">
+  <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+</div>
+
+<!-- ══════════════════════════════════════════
+     COLLAGE GRID
+══════════════════════════════════════════ -->
+<section id="collage">
+  <div class="collage-header reveal">
+    <div class="section-tag">The Archive</div>
+    <h2>Visual Stories</h2>
+  </div>
+
+  <div class="collage-grid reveal reveal-delay-1">
+
+    <div class="col-item">
+      <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=900&q=80&fit=crop&crop=face" alt="Portrait" loading="lazy">
+      <div class="col-item-overlay"><span class="col-item-label">Portrait · Amara</span></div>
+    </div>
+
+    <div class="col-item">
+      <img src="https://images.unsplash.com/photo-1598387993441-a364f854cfbd?w=700&q=80&fit=crop" alt="Music" loading="lazy">
+      <div class="col-item-overlay"><span class="col-item-label">Music Video</span></div>
+    </div>
+
+    <div class="col-item">
+      <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=80&fit=crop" alt="Social" loading="lazy">
+      <div class="col-item-overlay"><span class="col-item-label">Social Content</span></div>
+    </div>
+
+    <div class="col-item">
+      <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600&q=80&fit=crop" alt="Corporate" loading="lazy">
+      <div class="col-item-overlay"><span class="col-item-label">Corporate</span></div>
+    </div>
+
+    <div class="col-item">
+      <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&q=80&fit=crop" alt="Natural Light" loading="lazy">
+      <div class="col-item-overlay"><span class="col-item-label">Natural Light</span></div>
+    </div>
+
+    <div class="col-item">
+      <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=700&q=80&fit=crop" alt="Cinematic" loading="lazy">
+      <div class="col-item-overlay"><span class="col-item-label">Cinematic BTS</span></div>
+    </div>
+
+    <div class="col-item">
+      <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&q=80&fit=crop" alt="Event" loading="lazy">
+      <div class="col-item-overlay"><span class="col-item-label">Event Coverage</span></div>
+    </div>
+
+    <div class="col-item">
+      <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=700&q=80&fit=crop&crop=top" alt="Executive" loading="lazy">
+      <div class="col-item-overlay"><span class="col-item-label">Executive Portrait</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CTA
+══════════════════════════════════════════ -->
+<section id="cta">
+  <div class="cta-inner reveal">
+    <div class="section-tag">Work Together</div>
+    <div class="cta-big">Let's Create<br>Something <span>Real</span></div>
+    <p class="cta-sub">Every project starts with a conversation. Tell us your vision and we'll bring it to life — one frame at a time.</p>
+    <a href="swaes-pictures.html#contact" class="cta-btn">Book a Shoot</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-copy">© 2026 Swae's Pictures · Zimbabwe</div>
+  <div class="footer-links">
+    <a href="swaes-pictures.html">Home</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="swaes-pictures.html#about">About</a>
+    <a href="swaes-pictures.html#contact">Contact</a>
+    <div style="font-size:0.7rem; color:#6b6b6b; letter-spacing:1px;">
+  Designed & Built by Takudzwa Mbano · XERO Co · WhatsApp: <a href="https://api.whatsapp.com/send?phone=919588511784" target="_blank" style="color:#2dd4bf; text-decoration:none;">+91 95885 11784</a>
+</div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+/* ─── Navbar ─── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('solid', scrollY > 60));
+
+/* ─── Burger ─── */
+const burger = document.getElementById('burger');
+const mobileNav = document.getElementById('mobileNav');
+burger.addEventListener('click', () => {
+  burger.classList.toggle('open');
+  mobileNav.classList.toggle('open');
+});
+function closeMenu() {
+  burger.classList.remove('open');
+  mobileNav.classList.remove('open');
+}
+
+/* ─── Hero BG ─── */
+window.addEventListener('load', () => {
+  const bg = document.getElementById('heroBg');
+  if (bg) bg.classList.add('loaded');
+});
+
+/* ─── Scroll Reveal ─── */
+const reveals = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+reveals.forEach(el => ro.observe(el));
+
+/* ─── Video thumbnail switcher ─── */
+const videoData = [
+  { thumb: 'https://images.unsplash.com/photo-1598387993441-a364f854cfbd?w=1400&q=85&fit=crop', cat: 'Music Video', title: 'Neon Nights — Takudzwa ft. Asha' },
+  { thumb: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1400&q=85&fit=crop', cat: 'Events',      title: 'Zim Fashion Week 2024' },
+  { thumb: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1400&q=85&fit=crop', cat: 'Corporate',   title: 'Tech Corp Brand Reel' },
+  { thumb: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1400&q=85&fit=crop', cat: 'Portrait',    title: 'Golden Hour Session' },
+  { thumb: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1400&q=85&fit=crop', cat: 'Events',      title: 'Harare Festival 2024' },
+  { thumb: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1400&q=85&fit=crop', cat: 'Social Media','title': 'Social Media Reel' },
+];
+
+function selectVideo(idx, el) {
+  // Update featured
+  const d = videoData[idx];
+  document.getElementById('featuredThumb').src = d.thumb;
+  document.getElementById('featuredCat').textContent = d.cat;
+  document.getElementById('featuredTitle').textContent = d.title;
+  // Update active thumb
+  document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function togglePlay() {
+  // Visual feedback — in production swap image for real video
+  const btn = document.getElementById('playBtn');
+  btn.style.background = 'var(--teal)';
+  btn.querySelector('svg').style.fill = 'var(--black)';
+  setTimeout(() => {
+    btn.style.background = '';
+    btn.querySelector('svg').style.fill = '';
+  }, 300);
+}
+
+function scrollThumbs(dir) {
+  const row = document.getElementById('thumbRow');
+  row.scrollBy({ left: dir * 260, behavior: 'smooth' });
+}
+
+/* ─── Photo Slider ─── */
+const slider = document.getElementById('photoSlider');
+const slides = slider.querySelectorAll('.photo-slide');
+const total = slides.length;
+let current = 0;
+let autoTimer;
+
+// Build dots
+const dotsWrap = document.getElementById('sliderDots');
+document.getElementById('slideTotal').textContent = String(total).padStart(2,'0');
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.addEventListener('click', () => goToSlide(i));
+  dotsWrap.appendChild(d);
+});
+
+function goToSlide(n) {
+  slides[current].classList.remove('current');
+  current = (n + total) % total;
+  slides[current].classList.add('current');
+  slider.style.transform = `translateX(-${current * 100}%)`;
+  document.getElementById('slideNum').textContent = String(current + 1).padStart(2,'0');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  resetAuto();
+}
+
+function moveSlide(dir) { goToSlide(current + dir); }
+
+function resetAuto() {
+  clearInterval(autoTimer);
+  autoTimer = setInterval(() => moveSlide(1), 5000);
+}
+resetAuto();
+</script>
+</body>
+</html>
