@@ -235,6 +235,79 @@ nav.solid {
   border-bottom: 1px solid rgba(200,169,109,.1);
   padding: 18px 0; background: var(--void);
 }
+
+#team {
+  background: var(--void);
+  padding: clamp(80px,12vh,140px) var(--pad);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: clamp(30px,5vw,60px);
+  margin-top: 50px;
+}
+
+.team-card {
+  border: 1px solid rgba(200,169,109,.1);
+  transition: transform .4s, border-color .4s;
+}
+
+.team-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(200,169,109,.3);
+}
+
+.team-img-wrap {
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+}
+
+.team-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(.75);
+  transition: transform 1s ease;
+}
+
+.team-card:hover img {
+  transform: scale(1.08);
+}
+
+.team-info {
+  padding: 24px;
+}
+
+.team-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  color: var(--bone);
+}
+
+.team-role {
+  font-size: .6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.team-bio {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .95rem;
+  color: rgba(240,235,227,.6);
+  line-height: 1.6;
+}
+
+/* mobile */
+@media(max-width:768px){
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+}
 .marquee-track { display: flex; white-space: nowrap; animation: marquee 24s linear infinite; }
 .marquee-item {
   font-family: 'Bebas Neue', sans-serif;
@@ -307,6 +380,84 @@ nav.solid {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(1rem, 2vw, 1.55rem);
   font-weight: 300; color: var(--bone); line-height: 1.2;
+}
+
+#team {
+  background: var(--void);
+  padding: clamp(80px,12vh,140px) var(--pad);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: clamp(30px,5vw,60px);
+  margin-top: 50px;
+}
+
+.team-card {
+  border: 1px solid rgba(200,169,109,.1);
+  transition: transform .4s, border-color .4s;
+}
+
+.team-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(200,169,109,.3);
+}
+
+.team-img-wrap {
+  width: 100%;
+  height: 520px; /* bigger = no head cut */
+  overflow: hidden;
+}
+
+.team-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 15%; /* 🔥 keeps faces visible */
+  filter: brightness(.85);
+  transition: transform 1s ease;
+}
+
+.team-card:hover img {
+  transform: scale(1.08);
+}
+
+.team-info {
+  padding: 24px;
+}
+
+.team-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  color: var(--bone);
+}
+
+.team-role {
+  font-size: .6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.team-bio {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .95rem;
+  color: rgba(240,235,227,.6);
+  line-height: 1.6;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .team-img-wrap {
+    height: 420px;
+  }
 }
 .pi-arrow {
   position: absolute; top: 22px; right: 22px;
@@ -709,6 +860,45 @@ footer {
         <div class="stat-l">Client Focus</div>
       </div>
     </div>
+  </div>
+</section>
+<!-----team-->
+<section id="team">
+  <div class="sec-head rv">
+    <div>
+      <div class="eyebrow">The Vision</div>
+      <div class="display-h">MEET<br>THE TEAM</div>
+    </div>
+  </div>
+
+  <div class="team-grid">
+
+    <div class="team-card rv rv1">
+      <div class="team-img-wrap">
+        <img src="https://i.ibb.co/FbLnXh5w/girl.jpg" alt="Founder" loading="lazy">
+      </div>
+      <div class="team-info">
+        <div class="team-name">Sebastian Mpari</div>
+        <div class="team-role">Founder · Creative Director</div>
+        <p class="team-bio">
+          Vision-driven storyteller capturing emotion, culture, and legacy through cinematic frames.
+        </p>
+      </div>
+    </div>
+
+    <div class="team-card rv rv2">
+      <div class="team-img-wrap">
+        <img src="https://i.ibb.co/TqDrpxCn/kim.jpg" alt="Manager" loading="lazy">
+      </div>
+      <div class="team-info">
+        <div class="team-name">Kimberly T. Machinga</div>
+        <div class="team-role">Manager</div>
+        <p class="team-bio">
+          The force behind execution — turning creative vision into seamless, world-class experiences.
+        </p>
+      </div>
+    </div>
+
   </div>
 </section>
 
