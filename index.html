@@ -74,17 +74,6 @@ nav {
   transition: padding .4s, background .4s, border-color .4s;
   border-bottom: 1px solid transparent;
 }
-  .nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.nav-logo-img {
-  width: 28px;  /* adjust size */
-  height: 28px;
-  object-fit: contain;
-}
 nav.solid {
   padding: 18px var(--pad);
   background: rgba(5,5,5,.96);
@@ -97,8 +86,16 @@ nav.solid {
   color: var(--bone); text-decoration: none;
   display: flex; align-items: center; gap: 10px;
 }
+.nav-logo-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
 .nav-dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; animation: pulse 2.5s ease-in-out infinite; }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.4)} }
+.nav-right {
+  display: flex; align-items: center; gap: 28px;
+}
 .nav-links { display: flex; gap: 28px; list-style: none; }
 .nav-links a {
   font-size: .6rem; letter-spacing: 2.5px; text-transform: uppercase;
@@ -115,7 +112,7 @@ nav.solid {
   font-size: .58rem; letter-spacing: 2.5px; text-transform: uppercase;
   color: var(--gold); text-decoration: none; cursor: none;
   border: 1px solid var(--gold-line); padding: 10px 24px;
-  transition: background .3s, color .3s;
+  transition: background .3s, color .3s; white-space: nowrap;
 }
 .nav-book:hover { background: var(--gold); color: var(--ink); }
 .burger { display: none; flex-direction: column; gap: 6px; cursor: none; padding: 4px; z-index: 700; }
@@ -166,7 +163,6 @@ nav.solid {
   position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: .3;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
 }
-
 .hero-content {
   position: relative; z-index: 10;
   padding: 0 var(--pad) clamp(56px, 9vh, 120px);
@@ -218,7 +214,6 @@ nav.solid {
   transition: color .3s, gap .3s; cursor: none;
 }
 .btn-ghost-link:hover { color: var(--gold); gap: 18px; }
-
 .hero-indicators {
   position: absolute; right: var(--pad); bottom: clamp(56px, 9vh, 120px);
   z-index: 10; display: flex; flex-direction: column; gap: 8px;
@@ -229,7 +224,6 @@ nav.solid {
   transition: background .3s, height .3s; cursor: none;
 }
 .hero-dot.on { height: 40px; background: var(--gold); }
-
 .scroll-cue {
   position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%);
   z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -245,79 +239,6 @@ nav.solid {
   border-top: 1px solid rgba(200,169,109,.1);
   border-bottom: 1px solid rgba(200,169,109,.1);
   padding: 18px 0; background: var(--void);
-}
-
-#team {
-  background: var(--void);
-  padding: clamp(80px,12vh,140px) var(--pad);
-}
-
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: clamp(30px,5vw,60px);
-  margin-top: 50px;
-}
-
-.team-card {
-  border: 1px solid rgba(200,169,109,.1);
-  transition: transform .4s, border-color .4s;
-}
-
-.team-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(200,169,109,.3);
-}
-
-.team-img-wrap {
-  width: 100%;
-  height: 420px;
-  overflow: hidden;
-}
-
-.team-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(.75);
-  transition: transform 1s ease;
-}
-
-.team-card:hover img {
-  transform: scale(1.08);
-}
-
-.team-info {
-  padding: 24px;
-}
-
-.team-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.6rem;
-  letter-spacing: 2px;
-  color: var(--bone);
-}
-
-.team-role {
-  font-size: .6rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 12px;
-}
-
-.team-bio {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: .95rem;
-  color: rgba(240,235,227,.6);
-  line-height: 1.6;
-}
-
-/* mobile */
-@media(max-width:768px){
-  .team-grid {
-    grid-template-columns: 1fr;
-  }
 }
 .marquee-track { display: flex; white-space: nowrap; animation: marquee 24s linear infinite; }
 .marquee-item {
@@ -355,7 +276,6 @@ nav.solid {
   cursor: none; transition: all .25s;
 }
 .ftab.on, .ftab:hover { color: var(--gold); border-color: var(--gold-line); }
-
 .port-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -369,7 +289,6 @@ nav.solid {
 .pi:nth-child(5) { grid-column: 9/13; height: clamp(200px,28vw,380px); }
 .pi:nth-child(6) { grid-column: 1/6; height: clamp(220px,32vw,420px); }
 .pi:nth-child(7) { grid-column: 6/13; height: clamp(220px,32vw,420px); }
-
 .pi img {
   width: 100%; height: 100%; object-fit: cover; display: block;
   filter: brightness(.65) saturate(.7);
@@ -391,84 +310,6 @@ nav.solid {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(1rem, 2vw, 1.55rem);
   font-weight: 300; color: var(--bone); line-height: 1.2;
-}
-
-#team {
-  background: var(--void);
-  padding: clamp(80px,12vh,140px) var(--pad);
-}
-
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: clamp(30px,5vw,60px);
-  margin-top: 50px;
-}
-
-.team-card {
-  border: 1px solid rgba(200,169,109,.1);
-  transition: transform .4s, border-color .4s;
-}
-
-.team-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(200,169,109,.3);
-}
-
-.team-img-wrap {
-  width: 100%;
-  height: 520px; /* bigger = no head cut */
-  overflow: hidden;
-}
-
-.team-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 15%; /* 🔥 keeps faces visible */
-  filter: brightness(.85);
-  transition: transform 1s ease;
-}
-
-.team-card:hover img {
-  transform: scale(1.08);
-}
-
-.team-info {
-  padding: 24px;
-}
-
-.team-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.6rem;
-  letter-spacing: 2px;
-  color: var(--bone);
-}
-
-.team-role {
-  font-size: .6rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 12px;
-}
-
-.team-bio {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: .95rem;
-  color: rgba(240,235,227,.6);
-  line-height: 1.6;
-}
-
-/* MOBILE */
-@media(max-width:768px){
-  .team-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .team-img-wrap {
-    height: 420px;
-  }
 }
 .pi-arrow {
   position: absolute; top: 22px; right: 22px;
@@ -523,6 +364,60 @@ nav.solid {
 .stat-n { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3rem); color: var(--bone); line-height: 1; }
 .stat-n em { color: var(--gold); font-style: normal; }
 .stat-l { font-size: .55rem; letter-spacing: 2px; text-transform: uppercase; color: var(--ash); margin-top: 5px; }
+
+/* ─── TEAM ─── */
+#team {
+  background: var(--void);
+  padding: clamp(80px,12vh,140px) var(--pad);
+}
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: clamp(30px,5vw,60px);
+  margin-top: 50px;
+}
+.team-card {
+  border: 1px solid rgba(200,169,109,.1);
+  transition: transform .4s, border-color .4s;
+}
+.team-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(200,169,109,.3);
+}
+.team-img-wrap {
+  width: 100%;
+  height: 520px;
+  overflow: hidden;
+}
+.team-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 15%;
+  filter: brightness(.85);
+  transition: transform 1s ease;
+}
+.team-card:hover img { transform: scale(1.08); }
+.team-info { padding: 24px; }
+.team-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  color: var(--bone);
+}
+.team-role {
+  font-size: .6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.team-bio {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .95rem;
+  color: rgba(240,235,227,.6);
+  line-height: 1.6;
+}
 
 /* ─── TESTIMONIALS ─── */
 #testimonials {
@@ -647,6 +542,7 @@ footer {
   .test-grid { grid-template-columns: 1fr 1fr; }
 }
 @media(max-width:768px){
+  nav { padding: 20px 24px; }
   .nav-links, .nav-book { display: none; }
   .burger { display: flex; }
   .scroll-cue, .hero-indicators { display: none; }
@@ -655,6 +551,8 @@ footer {
   .pi-over { opacity: 1; transform: none; }
   .pi-arrow { display: none; }
   .test-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr; }
+  .team-img-wrap { height: 420px; }
   footer { flex-direction: column; align-items: flex-start; }
 }
 </style>
@@ -670,14 +568,15 @@ footer {
   <div class="pre-track"><div class="pre-fill"></div></div>
 </div>
 
+<!-- ─── NAV ─── -->
 <nav id="nav">
   <a href="index.html" class="nav-logo">
     <img src="https://i.ibb.co/60hhqbz1/logo.png" alt="Swae Logo" class="nav-logo-img">
     <div class="nav-dot"></div>
     SWAE PICTURES
   </a>
-</nav>
-  <div style="display:flex;align-items:center;gap:28px;">
+
+  <div class="nav-right">
     <ul class="nav-links">
       <li><a href="#portfolio">Work</a></li>
       <li><a href="#about">About</a></li>
@@ -874,7 +773,8 @@ footer {
     </div>
   </div>
 </section>
-<!-----team-->
+
+<!-- ═══════════════ TEAM ═══════════════ -->
 <section id="team">
   <div class="sec-head rv">
     <div>
@@ -884,7 +784,6 @@ footer {
   </div>
 
   <div class="team-grid">
-
     <div class="team-card rv rv1">
       <div class="team-img-wrap">
         <img src="https://i.ibb.co/FbLnXh5w/girl.jpg" alt="Founder" loading="lazy">
@@ -910,7 +809,6 @@ footer {
         </p>
       </div>
     </div>
-
   </div>
 </section>
 
