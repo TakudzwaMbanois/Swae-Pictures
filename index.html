@@ -82,19 +82,29 @@ nav.solid {
 }
 .nav-logo {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.1rem; letter-spacing: 6px;
-  color: var(--bone); text-decoration: none;
-  display: flex; align-items: center; gap: 10px;
+  font-size: 1.1rem;
+  letter-spacing: 6px;
+  color: var(--bone);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
+
 .nav-logo-img {
-  width: 28px;
-  height: 28px;
+  width: 38px;
+  height: 38px;
   object-fit: contain;
+  flex-shrink: 0;
 }
-.nav-dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; animation: pulse 2.5s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.4)} }
-.nav-right {
-  display: flex; align-items: center; gap: 28px;
+
+.nav-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: pulse 2.5s ease-in-out infinite;
+  flex-shrink: 0;
 }
 .nav-links { display: flex; gap: 28px; list-style: none; }
 .nav-links a {
